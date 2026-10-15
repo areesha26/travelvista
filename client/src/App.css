@@ -1,0 +1,705 @@
+/* ============================================================
+   TRAVEL WEBSITE — Glassmorphism + Motion UI
+   Fonts: Fraunces (headings) + Sora (body)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Sora:wght@300;400;500;600;700;800&display=swap');
+
+/* ---------- Design Tokens ---------- */
+:root {
+  --navy: #0b2440;
+  --navy-2: #123b5d;
+  --gold: #f6c453;
+  --gold-deep: #e3a92e;
+  --ink: #16324a;
+  --muted: #5b7186;
+  --paper: #f5f9fc;
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --radius-lg: 24px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Sora", "Segoe UI", sans-serif;
+}
+
+/* ---------- Reset / Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-display); }
+
+a { -webkit-tap-highlight-color: transparent; }
+
+img { max-width: 100%; }
+
+::selection { background: var(--gold); color: var(--navy); }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #e6eef4; }
+::-webkit-scrollbar-thumb { background: #b7c9d7; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--navy-2); }
+
+/* ---------- Keyframes ---------- */
+@keyframes fadeUp   { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
+@keyframes fadeDown { from { opacity: 0; transform: translate(-50%, -24px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.14); } }
+@keyframes floatOrb { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(28px, -22px); } }
+@keyframes cardIn   { from { opacity: 0; transform: translateY(42px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(3px); }
+  30%, 50%, 70% { transform: translateX(-5px); }
+  40%, 60% { transform: translateX(5px); }
+}
+
+/* ============================================================
+   NAVBAR — floating glass pill, center me fixed
+   ============================================================ */
+.navbar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1150px, calc(100% - 32px));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  background: rgba(9, 28, 48, 0.42);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(4, 16, 30, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  z-index: 100;
+  animation: fadeDown 0.8s var(--ease-out) both;
+  transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+}
+
+/* Optional: scroll par JS se .scrolled class lagao to effect aayega */
+.navbar.scrolled {
+  background: rgba(8, 24, 42, 0.85);
+  padding: 10px 30px;
+  box-shadow: 0 14px 44px rgba(3, 12, 24, 0.5);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* chhota gold brand-dot logo ke sath */
+.logo::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(246, 196, 83, 0.9);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 26px;
+}
+
+.link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+
+/* hover par gold underline slide hota hai */
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.link:hover { color: #fff; }
+.link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.signup-link {
+  position: relative;
+  overflow: hidden;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 10px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14.5px;
+  display: inline-block;
+  box-shadow: 0 4px 18px rgba(246, 196, 83, 0.35);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+
+/* shine sweep effect */
+.signup-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s var(--ease-out);
+}
+
+.signup-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(246, 196, 83, 0.55);
+}
+.signup-link:hover::after { left: 130%; }
+
+/* ============================================================
+   HERO — full screen, Ken Burns zoom + entrance animation
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 140px 8% 90px;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=85")
+    center/cover;
+  animation: kenburns 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* dark scrim readability ke liye + neeche section me smooth blend */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to top, var(--paper) 0%, rgba(245, 249, 252, 0) 16%),
+    linear-gradient(100deg, rgba(6, 24, 43, 0.9) 0%, rgba(6, 24, 43, 0.55) 48%, rgba(6, 24, 43, 0.12) 100%);
+}
+
+.hero-content { max-width: 720px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  animation: fadeUp 0.8s var(--ease-out) both 0.05s;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 34px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 550;
+  font-size: clamp(46px, 7vw, 86px);
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin: 20px 0;
+  animation: fadeUp 0.9s var(--ease-out) both 0.2s;
+}
+
+.highlight {
+  color: var(--gold);
+  font-style: italic;
+  font-weight: 480;
+}
+
+.hero-text {
+  max-width: 520px;
+  font-size: 17px;
+  line-height: 1.85;
+  color: rgba(233, 241, 248, 0.88);
+  margin-bottom: 34px;
+  animation: fadeUp 0.9s var(--ease-out) both 0.38s;
+}
+
+.hero-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 15.5px;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  box-shadow: 0 12px 32px -8px rgba(246, 196, 83, 0.5);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s;
+  animation: fadeUp 0.9s var(--ease-out) both 0.55s;
+}
+
+.hero-button::after {
+  content: "\2192"; /* → arrow */
+  transition: transform 0.35s var(--ease-out);
+}
+
+.hero-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px -8px rgba(246, 196, 83, 0.6);
+}
+.hero-button:hover::after { transform: translateX(6px); }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section {
+  padding: 110px 7% 90px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 600;
+  color: var(--navy);
+  margin: 0;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--gold);
+  margin: 18px auto 0;
+}
+
+.section-text {
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 580px;
+  margin: 22px auto 0;
+}
+
+/* ============================================================
+   DESTINATION CARDS — hover zoom + lift + gold underline
+   ============================================================ */
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin-top: 56px;
+  text-align: left;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(11, 36, 64, 0.08);
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 32px 60px -18px rgba(11, 36, 64, 0.3);
+}
+
+/* hover par neeche gold line grow hoti hai */
+.card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out);
+  z-index: 2;
+}
+.card:hover::after { transform: scaleX(1); }
+
+.card-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.9s var(--ease-out);
+}
+.card:hover .card-image { transform: scale(1.1); }
+
+.card-body { padding: 22px 24px 28px; }
+
+.card-body h3 {
+  margin: 6px 0 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.country {
+  display: block;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #156a99;
+  font-weight: 700;
+  font-size: 14.5px;
+  text-decoration: none;
+}
+.card-link::after {
+  content: "\2192";
+  transition: transform 0.3s var(--ease-out);
+}
+.card:hover .card-link::after { transform: translateX(5px); }
+
+/* Scroll-reveal — Chrome me cards scroll par fade-up hote hain
+   (purane browsers me simply visible rehte hain, koi issue nahi) */
+@supports (animation-timeline: view()) {
+  .section-title,
+  .section-text,
+  .card {
+    animation: fadeUp linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+  .card:nth-child(2) { animation-range: entry 10% entry 70%; }
+  .card:nth-child(3) { animation-range: entry 20% entry 80%; }
+  .card:nth-child(4) { animation-range: entry 30% entry 90%; }
+}
+
+/* ============================================================
+   ABOUT — dark band, soft floating orbs for depth
+   ============================================================ */
+.about {
+  position: relative;
+  overflow: hidden;
+  background: var(--navy);
+  text-align: center;
+  padding: 100px 8%;
+  color: #dce9f4;
+}
+
+.about::before,
+.about::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.28;
+  pointer-events: none;
+}
+.about::before {
+  width: 340px; height: 340px;
+  background: var(--gold);
+  top: -130px; left: -90px;
+  animation: floatOrb 13s ease-in-out infinite;
+}
+.about::after {
+  width: 300px; height: 300px;
+  background: #2e7ea8;
+  bottom: -120px; right: -70px;
+  animation: floatOrb 16s ease-in-out infinite reverse;
+}
+
+.about > * { position: relative; z-index: 1; }
+
+.about h2 {
+  color: #fff;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+.about p { max-width: 620px; margin: 0 auto; line-height: 1.85; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  padding: 34px 24px;
+  background: #071a2e;
+  color: rgba(255, 255, 255, 0.72);
+  text-align: center;
+  font-size: 13.5px;
+  letter-spacing: 0.4px;
+  border-top: 1px solid rgba(246, 196, 83, 0.25);
+}
+
+/* ============================================================
+   AUTH PAGE — glass form scenic background ke upar
+   ============================================================ */
+.auth-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 140px 20px 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* beach background + soft warm/cool orbs + dark scrim */
+.auth-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(440px 440px at 78% 20%, rgba(246, 196, 83, 0.26), transparent 70%),
+    radial-gradient(400px 400px at 16% 82%, rgba(46, 126, 168, 0.28), transparent 70%),
+    linear-gradient(rgba(8, 25, 44, 0.6), rgba(8, 25, 44, 0.6)),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85")
+      center/cover;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  box-sizing: border-box;
+  padding: 42px 38px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 30px 80px -20px rgba(3, 14, 28, 0.65),
+              inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  color: #f2f7fb;
+  animation: cardIn 0.9s var(--ease-out) both 0.15s;
+}
+
+.auth-card h1,
+.auth-card h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.subtitle {
+  margin: 0;
+  color: rgba(224, 236, 247, 0.72);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #fecaca;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  text-align: center;
+  animation: shake 0.5s var(--ease-out);
+}
+
+.label {
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: 0.3px;
+  color: rgba(224, 236, 247, 0.92);
+  margin-top: 8px;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+.input::placeholder { color: rgba(255, 255, 255, 0.45); }
+.input:hover { background: rgba(255, 255, 255, 0.13); }
+
+.input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(246, 196, 83, 0.22);
+}
+
+.submit-button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 15px;
+  font-weight: 800;
+  font-size: 15.5px;
+  letter-spacing: 0.3px;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 14px;
+  box-shadow: 0 10px 30px -8px rgba(246, 196, 83, 0.55);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s, filter 0.3s;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 16px 38px -8px rgba(246, 196, 83, 0.65);
+}
+.submit-button:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+
+.submit-button:disabled {
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.switch-auth {
+  text-align: center;
+  color: rgba(224, 236, 247, 0.7);
+  font-size: 14px;
+}
+.switch-auth a {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.switch-auth a:hover { border-color: var(--gold); }
+
+.back-button {
+  align-self: flex-start;
+  background: transparent;
+  border: 0;
+  color: rgba(224, 236, 247, 0.65);
+  cursor: pointer;
+  padding: 4px 2px;
+  font-size: 13.5px;
+  font-family: inherit;
+  transition: color 0.3s, transform 0.3s var(--ease-out);
+}
+.back-button:hover { color: #fff; transform: translateX(-3px); }
+
+/* ============================================================
+   NOT FOUND
+   ============================================================ */
+.not-found {
+  text-align: center;
+  padding: 170px 20px 120px;
+}
+.not-found h1 {
+  font-size: clamp(80px, 18vw, 160px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--navy);
+  margin: 0 0 12px;
+  animation: fadeUp 0.8s var(--ease-out) both;
+}
+.not-found p {
+  color: var(--muted);
+  font-size: 17px;
+  animation: fadeUp 0.8s var(--ease-out) both 0.15s;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .navbar { top: 12px; padding: 12px 20px; }
+  .nav-links { gap: 16px; }
+  .link { font-size: 13.5px; }
+  .hero { padding: 150px 6% 80px; }
+  .section { padding: 80px 6% 66px; }
+  .about { padding: 80px 6%; }
+}
+
+@media (max-width: 560px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    border-radius: 26px;
+    gap: 12px;
+    padding: 16px 18px;
+  }
+  .nav-links { justify-content: center; }
+  .auth-card { padding: 34px 24px; }
+}
+
+/* ============================================================
+   ACCESSIBILITY — logo log kam motion prefer karte hain
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
