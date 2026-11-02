@@ -12,13 +12,13 @@ const PORT = process.env.PORT || 5000;
 // HARDCODED CORS (No .env reliance to avoid quote issues)
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5175"], // Dono ports allow hain
+    origin: ["http://localhost:5173"], 
     credentials: true,
   })
 );
 
 app.use(express.json());
-// Ye code har request ko terminal mein print karega
+
 app.use((req, res, next) => {
   console.log(`️ Incoming Request: ${req.method} ${req.url}`);
   next();
